@@ -1,19 +1,12 @@
 import instance from '../instance';
 
-export const joinClass = classCode => {
-  instance
-    .post('/api/classroom/join', { secretcode: classCode })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => console.log(err));
-};
-
-export const createClass = className => {
-  instance
-    .post('/api/classroom/join', { name: className })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => console.log(error));
+export const leaveClass = id => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(`/api/classroom/leave/${id}`)
+      .then(response => {
+        return resolve();
+      })
+      .catch(err => reject());
+  });
 };

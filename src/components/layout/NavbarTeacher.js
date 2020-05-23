@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-const NavbarTeacher = ({ openCreateClassModal, image }, handleLogout) => {
+
+const NavbarTeacher = ({ openCreateClassModal, image, handleLogout }) => {
   return (
     <nav>
       <Link className="nav-logo" to="/login">
@@ -24,9 +25,9 @@ const NavbarTeacher = ({ openCreateClassModal, image }, handleLogout) => {
         </li>
 
         <li id="lastitem">
-          <Link to="/login" id="kayıt_ol" onClick={handleLogout}>
+          <Button onClick={handleLogout} color="info">
             Çıkış Yap
-          </Link>
+          </Button>
         </li>
       </ul>
     </nav>

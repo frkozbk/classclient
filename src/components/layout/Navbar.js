@@ -8,9 +8,9 @@ import { logoutUser } from '../../actions/authActions';
 import image from '../../styles/Logo1.png';
 import '../../styles/navbar-logged.scss';
 import CreateClassModal from '../modals/CreateClassModal';
+import DefaultNavbar from './DefaultNavbar';
 import NavbarTeacher from './NavbarTeacher';
 import NavbarStudent from './NavbarStudent';
-import { createClass } from '../../actions/classActions';
 
 class Navbar extends Component {
   constructor(props) {
@@ -23,44 +23,34 @@ class Navbar extends Component {
 
   handleLogout = e => {
     const { logoutUserFn, history } = this.props;
-    e.preventDefault();
     logoutUserFn(history);
-  };
-
-  renderNavbar = () => {
-    const { authInfo } = this.props;
-    const { isAuthenticated } = authInfo;
-    const isTeacher = authInfo.user && authInfo.user.isteacher;
-    if (isAuthenticated) {
-      if (isTeacher) {
-        return (
-          <NavbarTeacher
-            openCreateClassModal={() =>
-              this.setState({ createClassModalIsOpen: true })
-            }
-            image={image}
-            handleLogout={() => this.handleLogout()}
-          />
-        );
-      }
-      return (
-        <NavbarStudent
-          openJoinClassModal={() =>
-            this.setState({ joinClassModalIsOpen: true })
-          }
-          image={image}
-          handleLogout={() => this.handleLogout()}
-        />
-      );
-    }
-    return <Navbar image={image} />;
   };
 
   render() {
     const { joinClassModalIsOpen, createClassModalIsOpen } = this.state;
+    const { isAuthenticated, isTeacher } = this.props;
+    console.log(isAuthenticated);
     return (
       <>
-        {this.renderNavbar()}
+        {isAuthenticated &&
+          (isTeacher ? (
+            <NavbarTeacher
+              openCreateClassModal={() =>
+                this.setState({ createClassModalIsOpen: true })
+              }
+              image={image}
+              handleLogout={() => this.handleLogout()}
+            />
+          ) : (
+            <NavbarStudent
+              openJoinClassModal={() =>
+                this.setState({ joinClassModalIsOpen: true })
+              }
+              image={image}
+              handleLogout={() => this.handleLogout()}
+            />
+          ))}
+        {!isAuthenticated && <DefaultNavbar image={image} />}
         <JoinClassModal
           isOpen={joinClassModalIsOpen}
           onClose={() => this.setState({ joinClassModalIsOpen: false })}
@@ -74,9 +64,10 @@ class Navbar extends Component {
   }
 }
 const mapStateToProps = state => ({
-  authInfo: state.auth
+  authInfo: state.auth,
+  isAuthenticated: state.auth && state.auth.isAuthenticated,
+  isTeacher: state.auth && state.auth.user && state.auth.user.isteacher
 });
 export default connect(mapStateToProps, {
-  logoutUserFn: logoutUser,
-  createClassFn: createClass
+  logoutUserFn: logoutUser
 })(withRouter(Navbar));

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import '../../styles/class.scss';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Table } from 'reactstrap';
+import '../../styles/class.scss';
 import { getUserClass } from '../../actions/getUserClass';
-import { ClassroomCard } from './ClassroomCard';
+import ClassroomRow from './ClassroomRow';
 
 class Classroom extends Component {
   constructor(props) {
@@ -15,29 +17,24 @@ class Classroom extends Component {
     getUserClassFn();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ user_class: nextProps.user_class.classes });
-  }
-
   render() {
-    let content;
-    if (this.state.user_class) {
-      content = this.state.user_class.map(iter => {
-        return (
-          <li>
-            <ClassroomCard
-              name={iter.name}
-              id={iter.id}
-              avatar={iter.avatar}
-              teacherName="Özgür Can Turna"
-            />
-          </li>
-        );
-      });
-    }
+    const { classes } = this.props;
+    const classroomRows =
+      Array.isArray(classes) &&
+      classes.map(userClass => <ClassroomRow {...userClass} />);
     return (
       <section className="class_section">
-        <ul>{content}</ul>
+        {/* <ul>{content}</ul> */}
+        <Table>
+          <thead>
+            <tr>
+              <th>Sınıf ismi</th>
+              <th>Öğretmen ismi</th>
+              <th>Aksiyonlar</th>
+            </tr>
+          </thead>
+          <tbody>{classroomRows}</tbody>
+        </Table>
       </section>
     );
   }
@@ -45,8 +42,9 @@ class Classroom extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   user: state.auth.user,
-  user_class: state.user_class
+  classes: state.user_class.classes
 });
-export default connect(mapStateToProps, { getUserClassFn: getUserClass })(
-  Classroom
-);
+const mapDispatchToProps = dispatch => ({
+  getUserClassFn: bindActionCreators(getUserClass, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Classroom);

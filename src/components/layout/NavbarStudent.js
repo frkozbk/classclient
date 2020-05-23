@@ -1,7 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-const NavbarStudent = ({ image, openJoinClassModal, handleLogout }) => {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getUserClass } from '../../actions/getUserClass';
+
+const NavbarStudent = ({
+  image,
+  openJoinClassModal,
+  handleLogout,
+  getUserClassFn
+}) => {
   return (
     <nav>
       <Link className="nav-logo" to="/login">
@@ -24,13 +33,16 @@ const NavbarStudent = ({ image, openJoinClassModal, handleLogout }) => {
           <Link to="/messages">Mesajlar</Link>
         </li>
         <li id="lastitem">
-          <Link to="/login" id="kayıt_ol" onClick={handleLogout}>
+          <Button type="info" onClick={() => handleLogout()}>
             Çıkış Yap
-          </Link>
+          </Button>
         </li>
       </ul>
     </nav>
   );
 };
 
-export default NavbarStudent;
+const mapDispatchToProps = dispatch => ({
+  getUserClassFn: bindActionCreators(getUserClass, dispatch)
+});
+export default connect(null, mapDispatchToProps)(NavbarStudent);

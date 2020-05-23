@@ -15,6 +15,7 @@ import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Classroom from './components/dashboard/Classroom';
+import ClassroomDashboard from './components/ClassroomDashboard';
 // Token ı kontrol et
 if (localStorage.jwtToken) {
   // Toker ı göndericeğimiz isteklerin headerına koy
@@ -42,6 +43,12 @@ const App = () => {
         <Route exact path="/" component={Login} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Switch>
+          <PrivateRoute
+            path="/classroom/:classroomID"
+            component={ClassroomDashboard}
+          />
+        </Switch>
         <Switch>
           <PrivateRoute exact path="/classroom" component={Classroom} />
         </Switch>

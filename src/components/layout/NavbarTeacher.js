@@ -17,13 +17,6 @@ const NavbarTeacher = ({ openCreateClassModal, image, handleLogout }) => {
         <li>
           <Link to="/classroom">Sınıflar</Link>
         </li>
-        <li>
-          <Link to="/tasks">Ödevler</Link>
-        </li>
-        <li>
-          <Link to="/messages">Mesajlar</Link>
-        </li>
-
         <li id="lastitem">
           <Button onClick={handleLogout} color="info">
             Çıkış Yap

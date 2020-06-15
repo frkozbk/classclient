@@ -16,6 +16,8 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Classroom from './components/dashboard/Classroom';
 import ClassroomDashboard from './components/ClassroomDashboard';
+import TaskDashboard from './components/TaskDashboard';
+
 // Token ı kontrol et
 if (localStorage.jwtToken) {
   // Toker ı göndericeğimiz isteklerin headerına koy
@@ -51,6 +53,9 @@ const App = () => {
         </Switch>
         <Switch>
           <PrivateRoute exact path="/classroom" component={Classroom} />
+        </Switch>
+        <Switch>
+          <PrivateRoute exact path="/tasks" component={TaskDashboard} />
         </Switch>
       </Router>
     </Provider>

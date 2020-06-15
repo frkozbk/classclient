@@ -26,6 +26,9 @@ const NavbarStudent = ({
         <li>
           <Link to="/classroom">Sınıflar</Link>
         </li>
+        <li>
+          <Link to="/tasks">Ödevler</Link>
+        </li>
         <li id="lastitem">
           <Button type="info" onClick={() => handleLogout()}>
             Çıkış Yap
